@@ -61,18 +61,33 @@ public class LinearEquation {
                subtraction!
      */
     public String equation() {
-        String slopeString;
+        String slopeString = "";
         String stringB;
         String deciSlope = "";
 
         if (slope() == 1.0) {
-            slopeString = "1";
+            slopeString = "";
             deciSlope = "x";
         } else if (slope() == -1.0) {
-            slopeString = "-1";
+            slopeString = "";
             deciSlope = "x";
         } else if (slope() == 0.0) {
             slopeString = "0";
+        } else if (x2 - x1 < 0 && !(y2 - y1 < 0)) {
+            if (Double.toString(slope()).endsWith(".0")) {
+                slopeString = "-" + Double.toString(slope()).substring(0, Double.toString(slope()).indexOf("."));
+                deciSlope = "x";
+            }
+            else {
+                slopeString = "-" + (int) (y2 - y1) + "/" + (int) (Math.abs(x2 - x1));
+                deciSlope = "x";
+            }
+        } else if (x2 - x1 < 0 && y2 - y1 < 0) {
+            slopeString = (int) (Math.abs(y2 - y1)) + "/" + (int) (Math.abs(x2 - x1));
+            deciSlope = "x";
+        } else if (Double.toString(slope()).endsWith(".0")) {
+            slopeString = Integer.toString((int) (slope()));
+            deciSlope = "x";
         } else {
             int gcd = gcd((int) Math.abs(y2 - y1), (int) Math.abs(x2 - x1));
             int numerator = (int) (y2 - y1) / gcd;
@@ -91,7 +106,7 @@ public class LinearEquation {
             stringB = Double.toString(Math.abs(yIntercept()));
         }
 
-        return slopeString + deciSlope + " " + stringB;
+        return "y = " + slopeString + deciSlope + " " + stringB;
     }
 
     public int gcd(int a, int b) {
